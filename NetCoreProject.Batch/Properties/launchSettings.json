@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NetCoreProject.Batch": {
+      "commandName": "Project",
+      "commandLineArgs": "ASPNETCORE_ENVIRONMENT|Development BATCH_PROID|Test BATCH_SEQNO|0000000000"
+    }
+  }
+}
