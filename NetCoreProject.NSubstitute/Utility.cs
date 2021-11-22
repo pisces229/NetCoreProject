@@ -1,6 +1,9 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -9,6 +12,11 @@ namespace NetCoreProject.NSubstitute
 {
     public class Utility
     {
+        public static IConfigurationRoot CreateConfiguration()
+            => new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: false)
+                .Build();
         public static void PrintSqlString(string value)
             => Console.WriteLine(new Regex("[ ]{2,}", RegexOptions.None).Replace(value.ToString().Replace(Environment.NewLine, " "), " ").Trim());
         public static void PrintDynamicParameters(DynamicParameters parameter)

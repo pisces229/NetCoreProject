@@ -1,5 +1,6 @@
 using Dapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using NetCoreProject.Domain.DatabaseContext;
 using NetCoreProject.Domain.Enum;
 using NetCoreProject.Domain.IService;
@@ -147,6 +148,23 @@ namespace NetCoreProject.NSubstitute
             sqlUtil.WhereAndCondition(condition, dynamicParameters, "A", OperatorEnum.EQUAL, "B");
             Utility.PrintSqlString(condition.ToString());
             Utility.PrintDynamicParameters(dynamicParameters);
+        }
+        [Test]
+        public void Test_ConfigurationUtil()
+        {
+            {
+                var configurationRoot = new ConfigurationBuilder().AddInMemoryCollection(
+                    new Dictionary<string, string> {
+                        { "TempPath", "Test" }
+                    }).Build();
+                var configurationUtil = new ConfigurationUtil(configurationRoot);
+                Assert.AreEqual("Test", configurationUtil.TempPath);
+            }
+            {
+                var configurationRoot = Utility.CreateConfiguration();
+                var configurationUtil = new ConfigurationUtil(configurationRoot);
+                Assert.AreEqual("d:/WorkSpace/NetCoreProject/Temp", configurationUtil.TempPath);
+            }
         }
     }
 }
