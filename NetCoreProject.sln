@@ -13,11 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreProject.Batch", "Net
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreProject.Backend", "NetCoreProject.Backend\NetCoreProject.Backend.csproj", "{2AAE1490-67B2-47CE-82DB-EB73059D1778}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreProject.NSubstitute", "NetCoreProject.NSubstitute\NetCoreProject.NSubstitute.csproj", "{58E1DBA9-13A4-49C4-999C-D744FF0F9374}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreProject.NSubstitute", "NetCoreProject.NSubstitute\NetCoreProject.NSubstitute.csproj", "{58E1DBA9-13A4-49C4-999C-D744FF0F9374}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreProject.Moq", "NetCoreProject.Moq\NetCoreProject.Moq.csproj", "{83C5052F-BA96-489D-99A7-7CD2B03E37F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreProject.Moq", "NetCoreProject.Moq\NetCoreProject.Moq.csproj", "{83C5052F-BA96-489D-99A7-7CD2B03E37F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreProject.NUnit", "NetCoreProject.NUnit\NetCoreProject.NUnit.csproj", "{5CF2D498-754E-4AEF-ACAD-A0D6D7C6E7C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreProject.NUnit", "NetCoreProject.NUnit\NetCoreProject.NUnit.csproj", "{5CF2D498-754E-4AEF-ACAD-A0D6D7C6E7C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
