@@ -20,9 +20,7 @@ namespace NetCoreProject.Backend.Controller
         }
         [HttpPost]
         public async Task<ActionResult> SignIn([FromBody] LoginSignInInputModel model)
-        {
-            return Ok(await _loginLogic.SignIn(model));
-        }
+            => Ok(await _loginLogic.SignIn(model));
         [HttpPost]
         public async Task<ActionResult> Refresh([FromBody] string model)
         {

@@ -1,6 +1,5 @@
 ﻿using NetCoreProject.Domain.Model;
 using NetCoreProject.BusinessLayer.Model.Test;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,5 +18,6 @@ namespace NetCoreProject.BusinessLayer.ILogic
         Task<CommonApiResultModel<string>> Delete(string model);
         Task<CommonApiResultModel<string>> DeleteRange(IEnumerable<string> model);
         Task<CommonApiResultModel<string>> Upload(TestLogicUploadInputModel model);
+        Task<CommonApiResultModel<string>> Uploads(IEnumerable<TestLogicUploadInputModel> model);
     }
 }

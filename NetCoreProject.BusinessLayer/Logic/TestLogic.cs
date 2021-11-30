@@ -1,7 +1,6 @@
 ﻿using NetCoreProject.Domain.DatabaseContext;
 using NetCoreProject.Domain.Entity;
 using NetCoreProject.Domain.Model;
-using NetCoreProject.Domain.Service;
 using NetCoreProject.Domain.Util;
 using NetCoreProject.BusinessLayer.Model.Test;
 using NetCoreProject.BusinessLayer.ILogic;
@@ -222,28 +221,56 @@ namespace NetCoreProject.BusinessLayer.Logic
                 Success = false,
                 Message = "Complete"
             };
-            if (model != null)
+            if (model != null && model.UPLOAD_FILE != null && model.UPLOAD_FILE.Length > 0)
             {
-                if (model.UPLOAD_FILE != null && model.UPLOAD_FILE.Length > 0)
+                var fileName = model.UPLOAD_FILE.FileName;
+                if (!string.IsNullOrEmpty(model.UPLOAD_NAME) && !string.IsNullOrEmpty(model.UPLOAD_TYPE))
                 {
-                    var fileName = model.UPLOAD_FILE.FileName;
-                    if (!string.IsNullOrEmpty(model.UPLOAD_NAME) && !string.IsNullOrEmpty(model.UPLOAD_TYPE))
-                    {
-                        fileName = $"{model.UPLOAD_NAME}.{model.UPLOAD_TYPE}";
-                    }
-                    var savePath = Path.Combine(_configurationUtil.TempPath, fileName);
-                    using (var stream = File.Create(savePath))
-                    {
-                        await model.UPLOAD_FILE.CopyToAsync(stream);
-                    }
-                    result.Success = true;
-                    result.Message = "Complete";
-                    result.Data = savePath;
+                    fileName = $"{model.UPLOAD_NAME}.{model.UPLOAD_TYPE}";
                 }
-                else
+                var savePath = Path.Combine(_configurationUtil.TempPath, fileName);
+                using (var stream = File.Create(savePath))
                 {
-                    result.Message = "Please Select File";
+                    await model.UPLOAD_FILE.CopyToAsync(stream);
                 }
+                result.Success = true;
+                result.Message = "Complete";
+            }
+            else
+            {
+                result.Message = "Please Select File";
+            }
+            return result;
+        }
+        public async Task<CommonApiResultModel<string>> Uploads(IEnumerable<TestLogicUploadInputModel> model)
+        {
+            var result = new CommonApiResultModel<string>()
+            {
+                Success = false,
+                Message = "Complete"
+            };
+            if (model != null && model.Any())
+            {
+                await Task.Run(() =>
+                {
+                    model.Where(w => w.UPLOAD_FILE != null && w.UPLOAD_FILE.Length > 0)
+                        .ToList()
+                        .ForEach(f =>
+                        {
+                            var fileName = f.UPLOAD_FILE.FileName;
+                            if (!string.IsNullOrEmpty(f.UPLOAD_NAME) && !string.IsNullOrEmpty(f.UPLOAD_TYPE))
+                            {
+                                fileName = $"{f.UPLOAD_NAME}.{f.UPLOAD_TYPE}";
+                            }
+                            var savePath = Path.Combine(_configurationUtil.TempPath, fileName);
+                            using (var stream = File.Create(savePath))
+                            {
+                                f.UPLOAD_FILE.CopyTo(stream);
+                            }
+                        });
+                });
+                result.Success = true;
+                result.Message = "Complete";
             }
             else
             {

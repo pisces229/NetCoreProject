@@ -13,11 +13,12 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Web;
 using NetCoreProject.Backend.AuthorizationFilter;
+using System.Text;
 
 namespace NetCoreProject.Backend.Controller
 {
     //[Authorize]
-    [ServiceFilter(typeof(DefaultAuthorizationFilter))]
+    //[ServiceFilter(typeof(DefaultAuthorizationFilter))]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class TestController : ControllerBase
@@ -35,129 +36,65 @@ namespace NetCoreProject.Backend.Controller
         }
         [HttpGet]
         public async Task<ActionResult> GetValueByValue([FromQuery]string value)
-        {
-            var result = await Task.FromResult(value);
-            return Ok(result);
-        }
+            => Ok(await Task.FromResult(value));
         [HttpPost]
         public async Task<ActionResult> PostValueByValue([FromBody]string value)
-        {
-            var result = await Task.FromResult(value);
-            return Ok(result);
-        }
+            => Ok(await Task.FromResult(value));
         [HttpGet]
         public async Task<ActionResult> GetValueByModel([FromQuery] TestValueInputModel model)
-        {
-            var result = await Task.FromResult(model);
-            return Ok(result);
-        }
+            => Ok(await Task.FromResult(model));
         [HttpPost]
         public async Task<ActionResult> PostValueByModel([FromBody] TestValueInputModel model)
-        {
-            var result = await Task.FromResult(model);
-            return Ok(result);
-        }
+            => Ok(await Task.FromResult(model));
         [HttpPost]
         public async Task<ActionResult> QueryGrid([FromBody] CommonQueryPageModel<TestLogicQueryGridInputModel> model)
-        {
-            var result = await _testLogic.QueryGrid(model);
-            return Ok(result);
-        }
+            => Ok(await _testLogic.QueryGrid(model));
         [HttpGet]
         public async Task<ActionResult> QueryWhere([FromQuery]TestLogicInputModel model)
-        {
-            var result = await _testLogic.QueryWhere(model);
-            return Ok(result);
-        }
+            => Ok(await _testLogic.QueryWhere(model));
         [HttpGet]
         public async Task<ActionResult> QueryByRow([FromQuery] string row)
-        {
-            var result = await _testLogic.QueryByRow(row);
-            return Ok(result);
-        }
+            => Ok(await _testLogic.QueryByRow(row));
         [HttpPost]
         public async Task<ActionResult> Insert([FromBody] TestLogicInputModel model)
-        {
-            var result = await _testLogic.Insert(model);
-            return Ok(result);
-        }
+            => Ok(await _testLogic.Insert(model));
         [HttpPost]
         public async Task<ActionResult> InsertRange([FromBody]IEnumerable<TestLogicInputModel> model)
-        {
-            var result = await _testLogic.InsertRange(model);
-            return Ok(result);
-        }
+            => Ok(await _testLogic.InsertRange(model));
         [HttpPost]
         public async Task<ActionResult> Update([FromBody] TestLogicInputModel model)
-        {
-            var result = await _testLogic.Update(model);
-            return Ok(result);
-        }
+            => Ok(await _testLogic.Update(model));
         [HttpPost]
         public async Task<ActionResult> UpdateRange([FromBody]IEnumerable<TestLogicInputModel> model)
-        {
-            var result = await _testLogic.UpdateRange(model);
-            return Ok(result);
-        }
+            => Ok(await _testLogic.UpdateRange(model));
         [HttpPost]
         public async Task<ActionResult> Delete([FromBody] string model)
-        {
-            var result = await _testLogic.Delete(model);
-            return Ok(result);
-        }
+            => Ok(await _testLogic.Delete(model));
         [HttpPost]
         public async Task<ActionResult> DeleteRange([FromBody]IEnumerable<string> model)
-        {
-            var result = await _testLogic.DeleteRange(model);
-            return Ok(result);
-        }
-        [HttpGet]
-        public async Task<ActionResult> GetDownload()
-        {
-            await Task.FromResult("");
-            var temppath = _configurationUtil.TempPath;
-            var filename = Guid.Empty.ToString() + ".zip";
-
-            //var physicalFileProvider = new PhysicalFileProvider(temppath);
-            //var fileInfo = physicalFileProvider.GetFileInfo(filename);
-            ////Response.Headers.Add("x-download-filename", "Download.docx");
-            //return File(fileInfo.CreateReadStream(), "application/download");
-
-            var fileInfo = new FileInfo(Path.Combine(temppath, filename));
-            if (fileInfo.Exists)
-            {
-                //return PhysicalFile(fileInfo.FullName, "application/download", filename);
-                Response.ContentType = "application/download";
-                Response.Headers.Add("content-disposition", "attachment; filename="
-                    + HttpUtility.HtmlEncode(filename));
-                await Response.SendFileAsync(fileInfo.FullName);
-                return Ok();
-            }
-            else
-            {
-                return Ok("File Not Exist");
-            }
-        }
+            => Ok(await _testLogic.DeleteRange(model));
+        //[HttpGet]
         [HttpPost]
-        public async Task<ActionResult> PostDownload()
+        public async Task<ActionResult> Download()
         {
-            await Task.FromResult("");
-            var temppath = _configurationUtil.TempPath;
-            var filename = Guid.Empty.ToString() + ".zip";
-
-            //var physicalFileProvider = new PhysicalFileProvider(temppath);
-            //var fileInfo = physicalFileProvider.GetFileInfo(filename);
-            ////Response.Headers.Add("x-download-filename", "Download.docx");
-            //return File(fileInfo.CreateReadStream(), "application/download");
-
-            var fileInfo = new FileInfo(Path.Combine(temppath, filename));
+            var fileInfo = new FileInfo(Path.Combine(_configurationUtil.TempPath, Guid.Empty.ToString() + ".zip"));
             if (fileInfo.Exists)
             {
                 //return PhysicalFile(fileInfo.FullName, "application/download", filename);
                 Response.ContentType = "application/download";
                 Response.Headers.Add("content-disposition", "attachment; filename="
-                    + HttpUtility.HtmlEncode(filename));
-                await Response.SendFileAsync(fileInfo.FullName);
+                    + HttpUtility.HtmlEncode(fileInfo.Name));
+                //await Response.SendFileAsync(fileInfo.FullName);
+                var buffer = new byte[16 * 1024];
+                using (var fileStream = fileInfo.OpenRead())
+                {
+                    var read = 0;
+                    while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        await Response.Body.WriteAsync(buffer, 0, read);
+                    }
+                }
+                //fileInfo.Delete();
                 return Ok();
             }
             else
@@ -167,20 +104,9 @@ namespace NetCoreProject.Backend.Controller
         }
         [HttpPost]
         public async Task<ActionResult> Upload([FromForm] TestLogicUploadInputModel model)
-        {
-            var result = await _testLogic.Upload(model);
-            return Ok(result);
-        }
+            => Ok(await _testLogic.Upload(model));
         [HttpPost]
         public async Task<ActionResult> Uploads([FromForm] IEnumerable<TestLogicUploadInputModel> model)
-        {
-            var result = await Task.FromResult(new CommonApiResultModel<string>()
-            {
-                Success = true,
-                Message = "Complete"
-            });
-            return Ok(result);
-        }
-
+            => Ok(await _testLogic.Uploads(model));
     }
 }
