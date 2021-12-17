@@ -32,7 +32,7 @@ namespace NetCoreProject.Domain.Service
         {
             if (datas.Any())
             {
-                var propertyInfoArray = typeof(T).GetType().GetProperties();
+                var propertyInfoArray = typeof(T).GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
                 var dataTable = new DataTable
                 {
                     TableName = typeof(T).Name
