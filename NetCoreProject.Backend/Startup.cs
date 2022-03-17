@@ -41,6 +41,7 @@ using NLog.Web;
 using System.Net.Security;
 using NetCoreProject.Domain.Enum;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using NetCoreProject.Backend.Csp;
 
 namespace NetCoreProject.Backend
 {
@@ -454,41 +455,15 @@ namespace NetCoreProject.Backend
             // before UseEndpoints
             app.UseAuthentication();
             app.UseAuthorization();
-            // X-Frame-Options
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers.Add("X-Frame-Options", "DENY");
-                //context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
-                await next();
-            });
             // Content-Security-Policy
-            app.Use(async (context, next) =>
+            app.UseCsp(options =>
             {
-                context.Response.Headers.Add(
-                    "Content-Security-Policy",
-                    "frame-ancestors 'none';"
-                //"frame-ancestors 'self';"
-                );
-                await next();
-            });
-            // Strict-Transport-Security
-            // support HSTS
-            //app.Use(async (context, next) =>
-            //{
-            //    context.Response.Headers.Add(
-            //        "Strict-Transport-Security",
-            //        "max-age=16070400; includeSubDomains"
-            //    );
-            //    await next();
-            //});
-            // X-Content-Type-Options
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers.Add(
-                    "X-Content-Type-Options",
-                    "nosniff"
-                );
-                await next();
+                options.Scripts.AllowSelf().UnsafeInline().UnsafeEval();
+                options.Styles.AllowSelf().UnsafeInline();
+                options.Images.AllowSelf().Allow("data:");
+                options.Frames.Disallow();
+                // X-Frame-Options
+                options.FrameAncestors.Disallow();
             });
             //app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api/"), builder =>
             //{
