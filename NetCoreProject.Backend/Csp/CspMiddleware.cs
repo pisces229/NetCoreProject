@@ -32,17 +32,12 @@ namespace NetCoreProject.Backend.Csp
                 {
                     stringBuilder.Append($"report-uri {_options.ReportURL};");
                 }
-                stringBuilder.Append(_options.FrameAncestors);
                 return stringBuilder.ToString();
             }
         }
         public async Task Invoke(HttpContext context)
         {
             context.Response.Headers.Add(Header, HeaderValue);
-            if (!string.IsNullOrEmpty(_options.FrameAncestors.XFrameOptions))
-            {
-                context.Response.Headers.Add("X-Frame-Options", _options.FrameAncestors.XFrameOptions);
-            }
             await _next(context);
         }
     }

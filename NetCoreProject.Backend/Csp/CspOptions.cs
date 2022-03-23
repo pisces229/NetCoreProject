@@ -15,6 +15,5 @@ namespace NetCoreProject.Backend.Csp
         public CspDirective Scripts { get; set; } = new CspDirective("script-src");
         public CspDirective Styles { get; set; } = new CspDirective("style-src");
         public string ReportURL { get; set; }
-        public FrameOptionsDirective FrameAncestors { get; set; } = new FrameOptionsDirective();
     }
 }

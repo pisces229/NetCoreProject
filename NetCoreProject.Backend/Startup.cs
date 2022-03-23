@@ -462,8 +462,18 @@ namespace NetCoreProject.Backend
                 options.Styles.AllowSelf().UnsafeInline();
                 options.Images.AllowSelf().Allow("data:");
                 options.Frames.Disallow();
-                // X-Frame-Options
-                options.FrameAncestors.Disallow();
+            });
+            // X-Frame-Options
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                await next();
+            });
+            // X-Content-Type-Options
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                await next();
             });
             //app.MapWhen(x => !x.Request.Path.Value.StartsWith("/api/"), builder =>
             //{
