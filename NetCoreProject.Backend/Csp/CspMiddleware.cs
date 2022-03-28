@@ -19,15 +19,17 @@ namespace NetCoreProject.Backend.Csp
             get
             {
                 var stringBuilder = new StringBuilder();
-                stringBuilder.Append(_options.Defaults);
-                stringBuilder.Append(_options.Connects);
-                stringBuilder.Append(_options.Fonts);
-                stringBuilder.Append(_options.Frames);
-                stringBuilder.Append(_options.Images);
-                stringBuilder.Append(_options.Media);
-                stringBuilder.Append(_options.Objects);
-                stringBuilder.Append(_options.Scripts);
-                stringBuilder.Append(_options.Styles);
+                stringBuilder.Append(_options.DefaultSrc);
+                stringBuilder.Append(_options.ConnectSrc);
+                stringBuilder.Append(_options.FontSrc);
+                stringBuilder.Append(_options.ChildSrc);
+                stringBuilder.Append(_options.FrameSrc);
+                stringBuilder.Append(_options.ImageSrc);
+                stringBuilder.Append(_options.MediaSrc);
+                stringBuilder.Append(_options.ObjectSrc);
+                stringBuilder.Append(_options.ScriptSrc);
+                stringBuilder.Append(_options.StyleSrc);
+                stringBuilder.Append(_options.FrameAncestors);
                 if (!string.IsNullOrEmpty(_options.ReportURL))
                 {
                     stringBuilder.Append($"report-uri {_options.ReportURL};");

@@ -458,10 +458,11 @@ namespace NetCoreProject.Backend
             // Content-Security-Policy
             app.UseCsp(options =>
             {
-                options.Scripts.AllowSelf().UnsafeInline().UnsafeEval();
-                options.Styles.AllowSelf().UnsafeInline();
-                options.Images.AllowSelf().Allow("data:");
-                options.Frames.Disallow();
+                options.ScriptSrc.AllowSelf().UnsafeInline().UnsafeEval();
+                options.StyleSrc.AllowSelf().UnsafeInline();
+                options.ImageSrc.AllowSelf().Allow("data:");
+                options.ChildSrc.Disallow();
+                options.FrameAncestors.Disallow();
             });
             // X-Frame-Options
             app.Use(async (context, next) =>
