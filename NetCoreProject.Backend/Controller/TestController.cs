@@ -83,7 +83,7 @@ namespace NetCoreProject.Backend.Controller
                 //return PhysicalFile(fileInfo.FullName, "application/download", filename);
                 Response.ContentType = "application/download";
                 Response.Headers.Add("content-disposition", "attachment; filename="
-                    + HttpUtility.HtmlEncode(fileInfo.Name));
+                    + HttpUtility.UrlEncode(fileInfo.Name));
                 //await Response.SendFileAsync(fileInfo.FullName);
                 var buffer = new byte[16 * 1024];
                 using (var fileStream = fileInfo.OpenRead())
