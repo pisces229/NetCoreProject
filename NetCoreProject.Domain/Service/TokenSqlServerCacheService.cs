@@ -17,6 +17,7 @@ namespace NetCoreProject.Domain.Service
         }
         public async Task Add(string key, CommonTokenModel value, TimeSpan expiry)
         {
+            value.Expiration = DateTime.Now.Add(expiry);
             await _distributedCache.SetAsync(key, JsonSerializer.SerializeToUtf8Bytes(value), new DistributedCacheEntryOptions()
             {
                 AbsoluteExpirationRelativeToNow = expiry
