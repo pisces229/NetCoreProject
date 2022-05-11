@@ -1,5 +1,3 @@
-extern alias StackExchangeRedis;
-
 using NetCoreProject.BusinessLayer;
 using NetCoreProject.DataLayer;
 using NetCoreProject.Domain.AbstractInterceptor;
@@ -23,7 +21,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,12 +33,12 @@ using System.Text;
 using System.Security.Cryptography;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
-using StackExchangeRedis::StackExchange.Redis;
 using NLog.Web;
 using System.Net.Security;
 using NetCoreProject.Domain.Enum;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using NetCoreProject.Backend.Csp;
+using StackExchange.Redis;
 
 namespace NetCoreProject.Backend
 {
@@ -61,7 +58,6 @@ namespace NetCoreProject.Backend
                 case "Development":
                     appsettingsJsonName = "appsettings.json";
                     nlogConfigName = "nlog.config";
-                    //nlogConfigName = "nlog.Elasticsearch.config";
                     //nlogConfigName = "nlog.Seq.config";
                     break;
                 case "Test":

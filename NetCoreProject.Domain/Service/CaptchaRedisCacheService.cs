@@ -1,5 +1,4 @@
 ﻿using NetCoreProject.Domain.IService;
-using Microsoft.Extensions.Caching.Redis;
 using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;

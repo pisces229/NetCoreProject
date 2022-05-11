@@ -18,7 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Caching.Redis;
 using NLog.Extensions.Hosting;
 using System;
 using System.Linq;
@@ -61,7 +60,6 @@ namespace NetCoreProject.Batch
                 case "Development":
                     appsettingsJsonName = "appsettings.json";
                     nlogConfigName = "nlog.config";
-                    //nlogConfigName = "nlog.Elasticsearch.config";
                     //nlogConfigName = "nlog.Seq.config";
                     break;
                 case "Test":

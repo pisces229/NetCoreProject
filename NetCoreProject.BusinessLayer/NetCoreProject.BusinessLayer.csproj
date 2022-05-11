@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\NetCoreProject.DataLayer\NetCoreProject.DataLayer.csproj" />
     <ProjectReference Include="..\NetCoreProject.Domain\NetCoreProject.Domain.csproj" />
   </ItemGroup>

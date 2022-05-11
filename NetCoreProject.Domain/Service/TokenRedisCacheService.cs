@@ -1,6 +1,5 @@
 ﻿using NetCoreProject.Domain.IService;
 using NetCoreProject.Domain.Model;
-using Microsoft.Extensions.Caching.Redis;
 using StackExchange.Redis;
 using System;
 using System.Text.Json;
