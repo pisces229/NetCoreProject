@@ -1,4 +1,4 @@
-# NetCoreSampleProject
+# NetCoreProject
 Development Tool: Visual Studio 2019<br>
 .Net Core Version: 3.1<br>
 範例方案包含以下專案<br>
