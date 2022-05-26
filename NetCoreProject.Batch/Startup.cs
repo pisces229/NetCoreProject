@@ -62,14 +62,6 @@ namespace NetCoreProject.Batch
                     nlogConfigName = "nlog.config";
                     //nlogConfigName = "nlog.Seq.config";
                     break;
-                case "Test":
-                    appsettingsJsonName = "appsettings.Test.json";
-                    nlogConfigName = "nlog.Test.config";
-                    break;
-                case "Production":
-                    appsettingsJsonName = "appsettings.Production.json";
-                    nlogConfigName = "nlog.Production.config";
-                    break;
                 default:
                     throw new Exception("Unknow EnvironmentName");
             }
